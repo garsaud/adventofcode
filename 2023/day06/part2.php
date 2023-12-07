@@ -3,12 +3,18 @@
 $time = preg_replace('/[^\d]/', '', fgets(STDIN));
 $recordedDistance = preg_replace('/[^\d]/', '', fgets(STDIN));
 
-$findDistance = fn ($time, $wait) => $wait * ($time - $wait);
-$findPossiblePauses = fn ($time) => range(1, $time-1);
+/**
+ * bruteforce sure works, but quadratic equations are much more interesting :)
+ *
+ * 0 = wait * -2 + time * wait - distance
+ *
+ * using quadratic formula:
+ * boundaries = (-time ± √(time² - 4 * d)) / 2
+ *
+ * @see https://en.wikipedia.org/wiki/Quadratic_equation
+ */
 
-$betterPauses = array_filter(
-    $findPossiblePauses($time),
-    fn ($wait) => $findDistance($time, $wait) >= $recordedDistance
-);
+$lower = ceil($time - sqrt($time**2 - 4 * $recordedDistance)) / 2;
+$higher = floor($time + sqrt($time**2 - 4 * $recordedDistance)) / 2;
 
-echo count($betterPauses);
+echo $higher - $lower;
