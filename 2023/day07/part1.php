@@ -25,7 +25,7 @@ function getHandType ($cards) {
         return 6; // two
     }
     return 9;
-};
+}
 
 $hands = array_map(
     function ($line) {
