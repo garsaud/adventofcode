@@ -2,7 +2,9 @@
 
 $db = new SQLite3(':memory:');
 $db->exec('CREATE TABLE pages (n INTEGER, rank INTEGER, uid INTEGER)');
+$db->exec('CREATE INDEX pi ON pages (uid, rank)');
 $db->exec('CREATE TABLE rules (before INTEGER, after INTEGER)');
+$db->exec('CREATE INDEX ri ON rules (before, after)');
 
 $input = trim(stream_get_contents(STDIN));
 [$rules, $updates] = explode("\n\n", $input);
